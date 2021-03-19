@@ -8,6 +8,7 @@ export type WrapperProps = {
 export const Wrapper = styled.div<WrapperProps>`
   border: 1px solid #ccc;
   border-radius: ${({ height }) => `${height}px`};
+  box-sizing: content-box;
   cursor: pointer;
   height: ${({ height }) => `${height}px`};
   padding: 4px;

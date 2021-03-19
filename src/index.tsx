@@ -2,6 +2,7 @@ import React, {
   CSSProperties,
   FC,
   forwardRef,
+  MouseEventHandler,
   ReactNode,
   Ref,
   useCallback,
@@ -76,25 +77,30 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
     );
     const [value, setValue] = useState(initialValue || optionValues[0]);
     const [wrap, setWrap] = useState(false);
-    const handleClick = useCallback(() => {
-      setValue((prevValue) => {
-        const index = optionValues.findIndex((value) => prevValue === value);
+    const handleClick = useCallback<MouseEventHandler<HTMLDivElement>>(
+      (e) => {
+        e.preventDefault();
 
-        let value = prevValue;
+        setValue((prevValue) => {
+          const index = optionValues.findIndex((value) => prevValue === value);
 
-        if (isWrap) {
-          if (index === 0 || index === 2) {
-            value = optionValues[1];
+          let value = prevValue;
+
+          if (isWrap) {
+            if (index === 0 || index === 2) {
+              value = optionValues[1];
+            } else {
+              value = optionValues[wrap ? 0 : 2];
+            }
           } else {
-            value = optionValues[wrap ? 0 : 2];
+            value = optionValues[index === 2 ? 0 : index + 1];
           }
-        } else {
-          value = optionValues[index === 2 ? 0 : index + 1];
-        }
 
-        return value;
-      });
-    }, [isWrap, optionValues, wrap]);
+          return value;
+        });
+      },
+      [isWrap, optionValues, wrap]
+    );
     const options = useMemo(
       () =>
         values.map((v) =>
