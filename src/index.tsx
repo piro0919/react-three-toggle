@@ -125,8 +125,8 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
         (v) => value === (typeof v === "string" ? v : v.value)
       );
 
-      if (!foundValue) {
-        return;
+      if (typeof foundValue === "undefined") {
+        return null;
       }
 
       return (
