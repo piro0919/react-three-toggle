@@ -1,4 +1,4 @@
-# react-comic-viewer
+# react-three-toggle
 
 react-three-toggle is toggle component for react.
 
