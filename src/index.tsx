@@ -75,7 +75,9 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
         }),
       [values]
     );
-    const [value, setValue] = useState(initialValue || optionValues[0]);
+    const [value, setValue] = useState(
+      typeof initialValue === "string" ? initialValue : optionValues[0]
+    );
     const [wrap, setWrap] = useState(false);
     const handleClick = useCallback<MouseEventHandler<HTMLDivElement>>(
       (e) => {
