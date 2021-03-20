@@ -2,7 +2,6 @@ import React, {
   CSSProperties,
   FC,
   forwardRef,
-  MouseEventHandler,
   ReactNode,
   Ref,
   useCallback,
@@ -10,7 +9,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import useDidUpdate from "@rooks/use-did-update";
+import { nanoid } from "nanoid";
 import {
   Inner,
   Select,
@@ -19,6 +18,8 @@ import {
   Wrapper,
   WrapperProps,
 } from "./styles";
+import detectTouchEvents from "detect-touch-events";
+import useDidUpdate from "@rooks/use-did-update";
 
 type Value =
   | string
@@ -68,127 +69,131 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
     },
     ref
   ) => {
-    const optionValues = useMemo(
-      () =>
-        values.map((v) => {
-          return typeof v === "string" ? v : v.value;
-        }),
-      [values]
-    );
-    const [value, setValue] = useState(
-      typeof initialValue === "string" ? initialValue : optionValues[0]
-    );
-    const [wrap, setWrap] = useState(false);
-    const handleClick = useCallback<MouseEventHandler<HTMLDivElement>>(
-      (e) => {
-        e.preventDefault();
-
-        setValue((prevValue) => {
-          const index = optionValues.findIndex((value) => prevValue === value);
-
-          let value = prevValue;
-
-          if (isWrap) {
-            if (index === 0 || index === 2) {
-              value = optionValues[1];
-            } else {
-              value = optionValues[wrap ? 0 : 2];
-            }
-          } else {
-            value = optionValues[index === 2 ? 0 : index + 1];
-          }
-
-          return value;
-        });
-      },
-      [isWrap, optionValues, wrap]
-    );
-    const options = useMemo(
+    const uniqueValues = useMemo(
       () =>
         values.map((v) =>
-          typeof v === "string" ? (
-            <option key={v} value={v} />
-          ) : (
-            <option key={v.value} value={v.value} />
-          )
+          typeof v === "string"
+            ? {
+                id: nanoid(),
+                label: null,
+                value: v,
+              }
+            : {
+                ...v,
+                id: nanoid(),
+              }
         ),
       [values]
     );
-    const selected = useMemo<"first" | "second" | "third">(() => {
-      const index = optionValues.findIndex((v) => value === v);
-
-      return ["first" as const, "second" as const, "third" as const][index];
-    }, [optionValues, value]);
-    const handleChange = useCallback(() => {}, []);
-    const selectedNode = useMemo(() => {
-      const foundValue = values.find(
-        (v) => value === (typeof v === "string" ? v : v.value)
-      );
-
-      if (typeof foundValue === "undefined") {
-        return null;
+    const [currentIndex, setCurrentIndex] = useState(() => {
+      if (typeof initialValue === "undefined") {
+        return 0;
       }
 
-      return (
-        <Selected
-          className={selectedClassName}
-          height={height}
-          isVertical={isVertical}
-          selected={selected}
-          style={selectedStyle}
-          width={width}
-        >
-          {typeof foundValue === "string" ? null : foundValue.label}
-        </Selected>
-      );
-    }, [
-      height,
-      isVertical,
-      selected,
-      selectedClassName,
-      selectedStyle,
-      value,
-      values,
-      width,
-    ]);
+      return uniqueValues.findIndex(({ value }) => initialValue === value) || 0;
+    });
+    const currentLabel = useMemo(() => {
+      const { label } = uniqueValues[currentIndex];
 
-    useEffect(() => {
-      if (selected !== "first" && selected !== "third") {
+      return label;
+    }, [currentIndex, uniqueValues]);
+    const currentValue = useMemo(() => {
+      const { value } = uniqueValues[currentIndex];
+
+      return value;
+    }, [currentIndex, uniqueValues]);
+    const options = useMemo(
+      () =>
+        uniqueValues.map(({ id, value }) => <option key={id} value={value} />),
+      [uniqueValues]
+    );
+    const handleChange = useCallback(() => {}, []);
+    const [enabledTouch, setEnabledTouch] = useState(false);
+    const [wrap, setWrap] = useState(false);
+    const callback = useCallback(() => {
+      setCurrentIndex((prevIndex) => {
+        if (isWrap) {
+          return wrap ? prevIndex - 1 : prevIndex + 1;
+        }
+
+        const nextIndex = prevIndex + 1;
+
+        return nextIndex === uniqueValues.length ? 0 : nextIndex;
+      });
+    }, [isWrap, uniqueValues.length, wrap]);
+    const handleClick = useCallback(() => {
+      if (enabledTouch) {
         return;
       }
 
-      setWrap(selected === "third");
-    }, [selected]);
+      callback();
+    }, [callback, enabledTouch]);
+    const handleTouchStart = useCallback(() => {
+      if (!enabledTouch) {
+        return;
+      }
+
+      callback();
+    }, [callback, enabledTouch]);
+    const length = useMemo(() => uniqueValues.length, [uniqueValues.length]);
+
+    useEffect(() => {
+      const { hasSupport } = detectTouchEvents;
+
+      setEnabledTouch(!!hasSupport);
+    }, []);
+
+    useEffect(() => {
+      if (currentIndex !== 0 && currentIndex !== uniqueValues.length - 1) {
+        return;
+      }
+
+      setWrap(currentIndex === uniqueValues.length - 1);
+    }, [currentIndex, uniqueValues.length]);
 
     useDidUpdate(() => {
       if (!onChange) {
         return;
       }
 
-      const currentValue = values.find((v) =>
-        typeof v === "string" ? value === v : value === v.value
-      );
-
-      if (!currentValue) {
-        return;
-      }
+      const currentValue = values[currentIndex];
 
       onChange(currentValue);
-    }, [onChange, value]);
+    }, [currentIndex, onChange, values]);
 
     return (
-      <Wrapper
-        className={wrapperClassName}
-        height={height}
-        onClick={handleClick}
-        style={wrapperStyle}
-        width={width}
-      >
-        <Inner>{selectedNode}</Inner>
-        <Select name={name} onChange={handleChange} ref={ref} value={value}>
+      <>
+        <Wrapper
+          className={wrapperClassName}
+          height={height}
+          onClick={handleClick}
+          onTouchStart={handleTouchStart}
+          style={wrapperStyle}
+          width={width}
+        >
+          <Inner>
+            <Selected
+              className={selectedClassName}
+              height={height}
+              index={currentIndex}
+              isVertical={isVertical}
+              length={length}
+              style={selectedStyle}
+              width={width}
+            >
+              {currentLabel}
+            </Selected>
+          </Inner>
+        </Wrapper>
+        <Select
+          name={name}
+          onChange={handleChange}
+          ref={ref}
+          value={currentValue}
+        >
           {options}
         </Select>
-      </Wrapper>
+      </>
     );
   }
 );

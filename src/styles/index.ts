@@ -23,8 +23,9 @@ export const Inner = styled.div`
 
 export type SelectedProps = {
   height: number;
+  index: number;
   isVertical?: boolean;
-  selected: "first" | "second" | "third";
+  length: number;
   width: number;
 };
 
@@ -33,20 +34,16 @@ export const Selected = styled.div<SelectedProps>`
   border-radius: 50%;
   height: ${({ height, isVertical, width }) =>
     `${isVertical ? width : height}px`};
-  left: ${({ height, isVertical, selected }) =>
-    isVertical
+  left: ${({ height, index, isVertical, length }) =>
+    !index || isVertical
       ? 0
-      : selected === "first"
-      ? 0
-      : `calc((100% - ${height}px) / ${selected === "second" ? 2 : 1})`};
+      : `calc((100% - ${height}px) / ${length - index})`};
   position: absolute;
   transition: 100ms;
-  top: ${({ isVertical, selected, width }) =>
-    isVertical
-      ? selected === "first"
-        ? 0
-        : `calc((100% - ${width}px) / ${selected === "second" ? 2 : 1})`
-      : 0};
+  top: ${({ index, isVertical, length, width }) =>
+    !index || !isVertical
+      ? 0
+      : `calc((100% - ${width}px) / ${length - index})`};
   width: ${({ height, isVertical, width }) =>
     `${isVertical ? width : height}px`};
 `;
