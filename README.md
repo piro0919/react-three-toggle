@@ -5,6 +5,7 @@ react-three-toggle is toggle component for react.
 ## Features
 
 - TypeScript support
+- Supports 3 or more
 
 ## Installation
 

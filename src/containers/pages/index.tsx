@@ -8,6 +8,7 @@ const Pages: FC = () => {
       { label: "hoge", value: "hoge" },
       { label: "fuga", value: "fuga" },
       { label: "piyo", value: "piyo" },
+      { label: "moge", value: "moge" },
     ],
     []
   );

@@ -37,13 +37,11 @@ export const Selected = styled.div<SelectedProps>`
   left: ${({ height, index, isVertical, length }) =>
     !index || isVertical
       ? 0
-      : `calc((100% - ${height}px) / ${length - index})`};
+      : `calc(((100% - ${height}px) / ${length - 1}) * ${index})`};
   position: absolute;
   transition: 100ms;
   top: ${({ index, isVertical, length, width }) =>
-    !index || !isVertical
-      ? 0
-      : `calc((100% - ${width}px) / ${length - index})`};
+    isVertical ? `calc(((100% - ${width}px) / ${length - 1}) * ${index})` : 0};
   width: ${({ height, isVertical, width }) =>
     `${isVertical ? width : height}px`};
 `;
