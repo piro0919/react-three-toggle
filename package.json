@@ -18,7 +18,7 @@
   "dependencies": {
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.3.0",
-    "@rooks/use-did-update": "4.11.1",
+    "@rooks/use-did-update": "4.11.2",
     "detect-touch-events": "2.0.2",
     "nanoid": "3.1.22"
   },
