@@ -20,7 +20,7 @@
     "@emotion/styled": "11.3.0",
     "@rooks/use-did-update": "4.11.2",
     "detect-touch-events": "2.0.2",
-    "nanoid": "3.1.22"
+    "nanoid": "3.1.23"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.12.0",
