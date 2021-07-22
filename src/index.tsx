@@ -85,13 +85,21 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
         ),
       [values]
     );
-    const [currentIndex, setCurrentIndex] = useState(() => {
-      if (typeof initialValue === "undefined") {
-        return 0;
-      }
+    const setInitialIndex = useCallback(
+      (initialValue) => {
+        if (typeof initialValue === "undefined") {
+          return 0;
+        }
 
-      return uniqueValues.findIndex(({ value }) => initialValue === value) || 0;
-    });
+        return (
+          uniqueValues.findIndex(({ value }) => initialValue === value) || 0
+        );
+      },
+      [uniqueValues]
+    );
+    const [currentIndex, setCurrentIndex] = useState(
+      setInitialIndex(initialValue)
+    );
     const currentLabel = useMemo(() => {
       const { label } = uniqueValues[currentIndex];
 
@@ -150,6 +158,10 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
 
       setWrap(currentIndex === uniqueValues.length - 1);
     }, [currentIndex, uniqueValues.length]);
+
+    useEffect(() => {
+      setInitialIndex(initialValue);
+    }, [initialValue, setInitialIndex]);
 
     useDidUpdate(() => {
       if (!onChange) {
