@@ -19,7 +19,6 @@ import {
   WrapperProps,
 } from "./styles";
 import detectTouchEvents from "detect-touch-events";
-import useDidUpdate from "@rooks/use-did-update";
 
 type Value =
   | string
@@ -85,21 +84,13 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
         ),
       [values]
     );
-    const setInitialIndex = useCallback(
-      (initialValue) => {
-        if (typeof initialValue === "undefined") {
-          return 0;
-        }
+    const [currentIndex, setCurrentIndex] = useState(() => {
+      if (typeof initialValue === "undefined") {
+        return 0;
+      }
 
-        return (
-          uniqueValues.findIndex(({ value }) => initialValue === value) || 0
-        );
-      },
-      [uniqueValues]
-    );
-    const [currentIndex, setCurrentIndex] = useState(
-      setInitialIndex(initialValue)
-    );
+      return uniqueValues.findIndex(({ value }) => initialValue === value) || 0;
+    });
     const currentLabel = useMemo(() => {
       const { label } = uniqueValues[currentIndex];
 
@@ -118,7 +109,10 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
     const handleChange = useCallback(() => {}, []);
     const [enabledTouch, setEnabledTouch] = useState(false);
     const [wrap, setWrap] = useState(false);
+    const [enabledOnChange, setEnabledOnChange] = useState(false);
     const callback = useCallback(() => {
+      setEnabledOnChange(true);
+
       setCurrentIndex((prevIndex) => {
         if (isWrap) {
           return wrap ? prevIndex - 1 : prevIndex + 1;
@@ -160,18 +154,24 @@ const ReactThreeToggle: FC<ReactThreeToggleProps> = forwardRef<
     }, [currentIndex, uniqueValues.length]);
 
     useEffect(() => {
-      setInitialIndex(initialValue);
-    }, [initialValue, setInitialIndex]);
+      const index = values.findIndex((value) => initialValue === value);
 
-    useDidUpdate(() => {
-      if (!onChange) {
+      if (index < 0) {
+        return;
+      }
+
+      setCurrentIndex(index);
+    }, [initialValue, values]);
+
+    useEffect(() => {
+      if (!enabledOnChange || !onChange) {
         return;
       }
 
       const currentValue = values[currentIndex];
 
       onChange(currentValue);
-    }, [currentIndex, onChange, values]);
+    }, [currentIndex, enabledOnChange, onChange, values]);
 
     return (
       <>
