@@ -16,8 +16,8 @@
     "url": "https://github.com/piro0919/react-three-toggle/issues"
   },
   "dependencies": {
-    "@emotion/react": "11.10.5",
-    "@emotion/styled": "11.10.5",
+    "@emotion/react": "11.10.6",
+    "@emotion/styled": "11.10.6",
     "detect-touch-events": "2.0.2",
     "nanoid": "3.3.4"
   },
