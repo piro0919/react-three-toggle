@@ -19,7 +19,7 @@
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
     "detect-touch-events": "2.0.2",
-    "nanoid": "3.3.11"
+    "nanoid": "5.1.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.17.0",
