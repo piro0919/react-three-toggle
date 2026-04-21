@@ -13,7 +13,7 @@ react-three-toggle is toggle component for react.
 
 ## Example
 
-[react-three-toggle](https://react-three-toggle.kk-web.link/)
+[react-three-toggle](https://react-three-toggle.kkweb.io/)
 
 ## Usage
 
