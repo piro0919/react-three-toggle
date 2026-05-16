@@ -56,9 +56,9 @@ body {
   background: #0b1224;
   border: 1px solid #334155;
   border-radius: 999px;
-  padding: 4px;
   min-width: 240px;
   height: 44px;
+  overflow: hidden;
 }
 
 .toggle-root:focus-visible {
@@ -69,13 +69,11 @@ body {
 .toggle-indicator {
   background: linear-gradient(135deg, #fb7185, #f97316);
   border-radius: 999px;
-  inset: 4px auto 4px 4px;
-  width: calc((100% - 8px) / 3) !important;
 }
 
 .toggle-option {
   padding: 0 16px;
-  line-height: 36px;
+  line-height: 42px;
   font-size: 0.95rem;
   color: #94a3b8;
   z-index: 1;
