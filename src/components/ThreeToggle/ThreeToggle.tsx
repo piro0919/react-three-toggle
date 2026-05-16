@@ -36,7 +36,7 @@ export function ThreeToggle({
   defaultValue,
   value: controlledValue,
   onValueChange,
-  wrap = false,
+  wrap = true,
   orientation = "horizontal",
   name,
   disabled = false,

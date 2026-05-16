@@ -30,21 +30,33 @@ export default function Home() {
       </section>
 
       <section className="section">
-        <h2>Controlled + wrap</h2>
+        <h2>Controlled</h2>
         <p>
-          External state via <code>value</code> + <code>onValueChange</code>. <code>wrap</code>{" "}
-          cycles back to the first option after the last.
+          External state via <code>value</code> + <code>onValueChange</code>. Cycles back to the
+          first after the last by default.
         </p>
         <ThreeToggle
           values={["light", "auto", "dark"]}
           value={light}
           onValueChange={setLight}
-          wrap
           className="toggle-root"
           indicatorClassName="toggle-indicator"
           optionClassName="toggle-option"
         />
         <div className="value">current: {light}</div>
+      </section>
+
+      <section className="section">
+        <h2>wrap=&#123;false&#125;</h2>
+        <p>Stops at the last option instead of cycling back.</p>
+        <ThreeToggle
+          values={["light", "auto", "dark"]}
+          defaultValue="light"
+          wrap={false}
+          className="toggle-root"
+          indicatorClassName="toggle-indicator"
+          optionClassName="toggle-option"
+        />
       </section>
 
       <section className="section">
@@ -57,7 +69,6 @@ export default function Home() {
           values={["S", "M", "L", "XL"]}
           value={size}
           onValueChange={setSize}
-          wrap
           className="toggle-root"
           indicatorClassName="toggle-indicator"
           optionClassName="toggle-option"

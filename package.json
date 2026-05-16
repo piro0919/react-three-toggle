@@ -1,6 +1,6 @@
 {
   "name": "react-three-toggle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Multi-value toggle component for React. Click to cycle through three or more options with optional wrap and form integration.",
   "keywords": [
     "react",

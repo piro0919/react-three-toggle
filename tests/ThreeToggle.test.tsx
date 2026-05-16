@@ -32,7 +32,22 @@ describe("ThreeToggle", () => {
     expect(onValueChange).toHaveBeenCalledWith("blue");
   });
 
-  it("stops at end without wrap", async () => {
+  it("stops at end when wrap is false", async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(
+      <ThreeToggle
+        values={["red", "green", "blue"]}
+        defaultValue="blue"
+        wrap={false}
+        onValueChange={onValueChange}
+      />,
+    );
+    await user.click(screen.getByRole("listbox"));
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("wraps to start by default", async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
     render(
@@ -43,7 +58,7 @@ describe("ThreeToggle", () => {
       />,
     );
     await user.click(screen.getByRole("listbox"));
-    expect(onValueChange).not.toHaveBeenCalled();
+    expect(onValueChange).toHaveBeenCalledWith("red");
   });
 
   it("wraps to start when wrap is true", async () => {
