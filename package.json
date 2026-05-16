@@ -1,75 +1,91 @@
 {
+  "name": "react-three-toggle",
+  "version": "1.0.0",
+  "description": "Multi-value toggle component for React. Click to cycle through three or more options with optional wrap and form integration.",
+  "keywords": [
+    "react",
+    "toggle",
+    "multi-toggle",
+    "switch",
+    "cycle",
+    "headless"
+  ],
+  "license": "MIT",
   "author": "piro <piro.haniwa@gmail.com> (https://kk-web.link/)",
-  "browserslist": {
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ],
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piro0919/react-three-toggle.git"
   },
+  "homepage": "https://react-three-toggle.kkweb.io",
   "bugs": {
     "url": "https://github.com/piro0919/react-three-toggle/issues"
   },
-  "dependencies": {
-    "@emotion/react": "11.14.0",
-    "@emotion/styled": "11.14.1",
-    "detect-touch-events": "2.0.2",
-    "nanoid": "3.3.12"
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build:lib": "tsup",
+    "build:lib:watch": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build:lib"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "5.17.0",
-    "@testing-library/react": "11.2.7",
-    "@testing-library/user-event": "12.8.3",
-    "@types/jest": "26.0.24",
-    "@types/node": "12.20.55",
-    "@types/react": "17.0.91",
-    "@types/react-dom": "17.0.26",
-    "filenamify-url": "2.1.2",
-    "gh-pages": "3.2.3",
-    "react": "17.0.2",
-    "react-app-rewired": "2.2.1",
-    "react-dom": "17.0.2",
-    "react-scripts": "4.0.3",
-    "typescript": "4.9.5",
-    "web-vitals": "1.1.2"
+    "@eslint/js": "^9.17.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "25.8.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "jsdom": "^25.0.1",
+    "lefthook": "^2.0.13",
+    "next": "^16.0.0",
+    "prettier": "^3.4.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.27.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook",
+      "sharp"
     ]
-  },
-  "homepage": "https://react-three-toggle.kk-web.link",
-  "keywords": [
-    "react",
-    "select",
-    "three",
-    "toggle",
-    "triple"
-  ],
-  "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "name": "react-three-toggle",
-  "private": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/piro0919/react-three-toggle.git"
-  },
-  "scripts": {
-    "build": "react-app-rewired build",
-    "build:package": "rm -rf dist && tsc -p tsconfig.gen-dts.json",
-    "deploy": "gh-pages -d build",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "start": "react-app-rewired start",
-    "test": "react-app-rewired test"
-  },
-  "types": "dist/index.d.ts",
-  "version": "0.5.2"
+  }
 }

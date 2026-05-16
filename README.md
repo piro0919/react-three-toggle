@@ -1,46 +1,68 @@
 # react-three-toggle
 
-react-three-toggle is toggle component for react.
+> Multi-value toggle component for React. Cycle through three or more options on click.
 
-## Features
+[![npm](https://img.shields.io/npm/v/react-three-toggle.svg)](https://www.npmjs.com/package/react-three-toggle)
+[![license](https://img.shields.io/npm/l/react-three-toggle.svg)](./LICENSE)
 
-- TypeScript support
-- Supports 3 or more
+A small, dependency-free toggle that cycles through 3+ options with a sliding indicator. Click or use arrow keys. Supports controlled / uncontrolled modes, wrap-around, horizontal / vertical orientation, and form integration via a hidden input.
 
-## Installation
+🌐 **Demo:** <https://react-three-toggle.kkweb.io>
 
-`npm i --save react-three-toggle`
+## Install
 
-## Example
+```bash
+npm install react-three-toggle
+```
 
-[react-three-toggle](https://react-three-toggle.kkweb.io/)
+Requires React 18 or 19.
 
 ## Usage
 
 ```tsx
-import React from "react";
-import ReactThreeToggle from "index";
+import { ThreeToggle } from "react-three-toggle";
 
-function App() {
-  return <ReactThreeToggle values={["hoge", "fuga", "piyo"]} />;
+export function App() {
+  return (
+    <ThreeToggle
+      values={["light", "auto", "dark"]}
+      defaultValue="auto"
+      onValueChange={(v) => console.log(v)}
+    />
+  );
 }
-
-export default App;
 ```
 
-## Props
+Rich labels:
 
-### Required
+```tsx
+<ThreeToggle
+  values={[
+    { label: "🌞 Light", value: "light" },
+    { label: "🤖 Auto", value: "auto" },
+    { label: "🌙 Dark", value: "dark" },
+  ]}
+/>
+```
 
-- values
+## API
 
-### Optional(default)
+| Prop                 | Type                              | Default        | Description                                 |
+| -------------------- | --------------------------------- | -------------- | ------------------------------------------- |
+| `values`             | `string[] \| { label?, value }[]` | —              | Options. At least one required.             |
+| `defaultValue`       | `string`                          | first option   | Initial value (uncontrolled).               |
+| `value`              | `string`                          | —              | Controlled value.                           |
+| `onValueChange`      | `(value: string) => void`         | —              | Fired on selection change.                  |
+| `wrap`               | `boolean`                         | `false`        | Wrap from last back to first.               |
+| `orientation`        | `"horizontal" \| "vertical"`      | `"horizontal"` | Layout direction.                           |
+| `name`               | `string`                          | —              | Renders a hidden input for form submission. |
+| `disabled`           | `boolean`                         | `false`        | Disable interaction.                        |
+| `className`          | `string`                          | —              | Root class.                                 |
+| `indicatorClassName` | `string`                          | —              | Indicator class.                            |
+| `optionClassName`    | `string`                          | —              | Option class.                               |
 
-- className
-- height(16px)
-- onChange
-- initialValue(values[0])
-- isVertical(false)
-- isWrap(false)
-- style
-- width(48px)
+Each option exposes `data-selected="true"` when active. Root exposes `data-three-toggle`, `data-orientation`, `data-disabled`.
+
+## License
+
+MIT
