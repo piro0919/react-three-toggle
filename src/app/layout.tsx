@@ -21,7 +21,11 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     siteName: TITLE,
   },
-  twitter: { card: "summary", title: TITLE, description: DESCRIPTION },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#0f172a" };
