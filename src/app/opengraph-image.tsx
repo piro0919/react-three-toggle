@@ -16,9 +16,8 @@ export default function Image() {
         width: "100%",
         height: "100%",
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        padding: "0 90px",
+        alignItems: "center",
+        padding: "0 80px",
         background: "#0b0b0f",
         color: "#ffffff",
       }}
@@ -26,43 +25,85 @@ export default function Image() {
       <div
         style={{
           display: "flex",
-          width: 120,
-          height: 10,
-          borderRadius: 999,
-          marginBottom: 44,
-          background: "linear-gradient(90deg, #f472b6 0%, #db2777 100%)",
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          fontSize: 68,
-          fontWeight: 700,
-          letterSpacing: -1,
+          flexDirection: "column",
+          justifyContent: "center",
+          width: 600,
         }}
       >
-        {TITLE}
+        <div
+          style={{
+            display: "flex",
+            fontSize: 68,
+            fontWeight: 700,
+            letterSpacing: -1,
+          }}
+        >
+          {TITLE}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 32,
+            marginTop: 28,
+            lineHeight: 1.4,
+            color: "#a1a1aa",
+          }}
+        >
+          {DESCRIPTION}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 26,
+            marginTop: 48,
+            color: "#71717a",
+          }}
+        >
+          kkweb.io
+        </div>
       </div>
+
+      {/* 何をするパッケージなのかを右に置く。名前と説明だけだと、
+          9件が同じ絵になってタイムラインで見分けが付かない */}
       <div
         style={{
+          alignItems: "center",
           display: "flex",
-          fontSize: 32,
-          marginTop: 28,
-          lineHeight: 1.4,
-          color: "#a1a1aa",
+          flex: 1,
+          justifyContent: "center",
         }}
       >
-        {DESCRIPTION}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          fontSize: 26,
-          marginTop: 56,
-          color: "#71717a",
-        }}
-      >
-        kkweb.io
+        <div
+          style={{
+            alignItems: "center",
+            background: "#15151c",
+            border: "1px solid #26262f",
+            borderRadius: 999,
+            display: "flex",
+            gap: 8,
+            padding: 10,
+          }}
+        >
+          {["light", "auto", "dark"].map((label) => (
+            <div
+              key={label}
+              style={{
+                alignItems: "center",
+                background: label === "auto" ? "#fb7185" : "transparent",
+                borderRadius: 999,
+                color: label === "auto" ? "#1a0509" : "#71717a",
+                display: "flex",
+                fontSize: 26,
+                fontWeight: label === "auto" ? 700 : 400,
+                height: 62,
+                justifyContent: "center",
+                width: 108,
+              }}
+            >
+              {label}
+            </div>
+          ))}
+        </div>
       </div>
     </div>,
     size,
