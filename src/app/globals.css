@@ -1,3 +1,15 @@
+/* 地と差し色は OGP と揃える。1枚絵とページで色が違うと別物に見える */
+:root {
+  --bg: #0b0b0f;
+  --panel: #15151c;
+  --line: #26262f;
+  --fg: #e4e4e7;
+  --muted: #a1a1aa;
+  --dim: #71717a;
+  --accent: #fb7185;
+  --accent-ink: #1a0509;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -6,106 +18,127 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: #0f172a;
-  color: #e2e8f0;
   min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 .container {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 64px 24px;
+  padding: 72px 24px 64px;
 }
 
 .title {
-  font-size: 2.5rem;
-  margin: 0 0 8px;
-  background: linear-gradient(135deg, #fb7185, #f97316);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  color: #94a3b8;
-  margin: 0 0 32px;
+  max-width: 36em;
+  margin: 16px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
+/* 角丸のカードを積まない。罫だけで区切る */
 .section {
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 24px;
+  margin: 48px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
 }
 
 .section h2 {
-  margin: 0 0 8px;
-  font-size: 1.125rem;
+  margin: 0;
+  color: var(--dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .section p {
-  margin: 0 0 16px;
-  color: #94a3b8;
-  font-size: 0.9rem;
+  margin: 12px 0 20px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
+/* 部品そのもの。OGP に描いたものと同じ形にする */
 .toggle-root {
-  background: #0b1224;
-  border: 1px solid #334155;
-  border-radius: 999px;
-  min-width: 240px;
-  height: 44px;
+  min-width: 260px;
+  height: 52px;
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
 }
 
 .toggle-root:focus-visible {
-  outline: 2px solid #fb7185;
-  outline-offset: 2px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .toggle-indicator {
-  background: linear-gradient(135deg, #fb7185, #f97316);
   border-radius: 999px;
+  background: var(--accent);
 }
 
 .toggle-option {
-  padding: 0 16px;
-  line-height: 42px;
-  font-size: 0.95rem;
-  color: #94a3b8;
   z-index: 1;
+  padding: 0 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 50px;
 }
 
 .toggle-option[data-selected="true"] {
-  color: #0f172a;
-  font-weight: 600;
+  color: var(--accent-ink);
+  font-weight: 700;
 }
 
 .value {
+  margin-top: 16px;
+  color: var(--accent);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.9rem;
-  color: #94a3b8;
-  margin-top: 12px;
+  font-size: 1.1rem;
 }
 
 .github-link {
   display: inline-block;
-  margin-top: 16px;
-  color: #94a3b8;
-  text-decoration: none;
+  width: 100%;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--dim);
   font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 .github-link:hover {
-  color: #e2e8f0;
+  color: var(--accent);
 }
 
 code {
-  background: #0f172a;
   padding: 2px 6px;
-  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--panel);
   font-size: 0.85em;
 }
