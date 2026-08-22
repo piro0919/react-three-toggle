@@ -1,13 +1,64 @@
-/* 地と差し色は OGP と揃える。1枚絵とページで色が違うと別物に見える */
+/* トグルがページの見た目を切り替える。theme-* と size-* は一番上の
+   トグルが付け替えるクラスで、この2つだけで面と字の大きさが決まる */
 :root {
+  --accent: #fb7185;
+  --accent-ink: #1a0509;
+  --step: 1rem;
+}
+
+.theme-dark {
   --bg: #0b0b0f;
   --panel: #15151c;
   --line: #26262f;
   --fg: #e4e4e7;
   --muted: #a1a1aa;
   --dim: #71717a;
-  --accent: #fb7185;
-  --accent-ink: #1a0509;
+}
+
+.theme-light {
+  --bg: #faf9f8;
+  --panel: #ffffff;
+  --line: #e4e2e0;
+  --fg: #17161a;
+  --muted: #57555c;
+  --dim: #8b8991;
+}
+
+/* auto は暗い側を既定にして、明るい環境でだけ明るくする */
+.theme-auto {
+  --bg: #0b0b0f;
+  --panel: #15151c;
+  --line: #26262f;
+  --fg: #e4e4e7;
+  --muted: #a1a1aa;
+  --dim: #71717a;
+}
+
+@media (prefers-color-scheme: light) {
+  .theme-auto {
+    --bg: #faf9f8;
+    --panel: #ffffff;
+    --line: #e4e2e0;
+    --fg: #17161a;
+    --muted: #57555c;
+    --dim: #8b8991;
+  }
+}
+
+.size-S {
+  --step: 0.875rem;
+}
+
+.size-M {
+  --step: 1rem;
+}
+
+.size-L {
+  --step: 1.125rem;
+}
+
+.size-XL {
+  --step: 1.25rem;
 }
 
 * {
@@ -19,8 +70,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: var(--bg);
-  color: var(--fg);
+  background: #0b0b0f;
   font-family:
     ui-sans-serif,
     system-ui,
@@ -36,51 +86,90 @@ body {
   background: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-.container {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 72px 24px 64px;
+.stage {
+  min-height: 100dvh;
+  padding: 72px 24px 56px;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: var(--step);
+  transition:
+    background 0.25s,
+    color 0.25s;
 }
 
-.title {
-  margin: 0;
-  font-size: clamp(2.25rem, 6vw, 3.25rem);
+.hero {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-toggle {
+  margin: 0 auto;
+}
+
+.name {
+  margin: 40px 0 0;
+  font-size: calc(var(--step) * 2.75);
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-.subtitle {
-  max-width: 36em;
-  margin: 16px 0 0;
+.lead {
+  max-width: 30em;
+  margin: 16px auto 0;
   color: var(--muted);
   line-height: 1.7;
 }
 
-/* 角丸のカードを積まない。罫だけで区切る */
-.section {
-  margin: 48px 0 0;
-  padding-top: 24px;
+.install {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(var(--step) * 0.85);
+}
+
+/* 例は縦積みではなく横に並べる。同じ部品の違いを見比べる話なので */
+.grid {
+  display: grid;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 72px auto 0;
+  padding-top: 32px;
   border-top: 1px solid var(--line);
 }
 
-.section h2 {
-  margin: 0;
+@media (width >= 800px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.cell-label {
   color: var(--dim);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: calc(var(--step) * 0.7);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.section p {
-  margin: 12px 0 20px;
+.cell-note {
+  margin: 0;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: calc(var(--step) * 0.85);
   line-height: 1.7;
 }
 
-/* 部品そのもの。OGP に描いたものと同じ形にする */
+/* 部品そのもの。OGP に描いたものと同じ形 */
 .toggle-root {
   min-width: 260px;
   height: 52px;
@@ -104,7 +193,7 @@ body {
   z-index: 1;
   padding: 0 18px;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: calc(var(--step) * 0.95);
   line-height: 50px;
 }
 
@@ -113,32 +202,24 @@ body {
   font-weight: 700;
 }
 
-.value {
-  margin-top: 16px;
-  color: var(--accent);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 1.1rem;
+code {
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  font-size: 0.85em;
 }
 
 .github-link {
-  display: inline-block;
-  width: 100%;
-  margin-top: 56px;
+  display: block;
+  max-width: 1000px;
+  margin: 56px auto 0;
   padding-top: 24px;
   border-top: 1px solid var(--line);
   color: var(--dim);
-  font-size: 0.9rem;
+  font-size: calc(var(--step) * 0.9);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .github-link:hover {
   color: var(--accent);
-}
-
-code {
-  padding: 2px 6px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  font-size: 0.85em;
 }
