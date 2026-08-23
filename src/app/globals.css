@@ -223,3 +223,8 @@ code {
 .github-link:hover {
   color: var(--accent);
 }
+
+/* 見出しの書体 */
+.name {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
