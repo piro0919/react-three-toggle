@@ -1,0 +1,7 @@
+# pnpm 11 ignores pnpm.onlyBuiltDependencies in package.json and fails the
+# install until every package with a build script is listed here. All three need
+# to run: esbuild and sharp fetch their binaries, lefthook installs the git hooks.
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  sharp: true
