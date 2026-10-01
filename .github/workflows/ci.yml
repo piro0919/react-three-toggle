@@ -8,6 +8,28 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24.19.0]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build:lib
+      - run: pnpm check:package
+
+  # The dev toolchain needs Node >= 22.13, but `engines` promises consumers
+  # Node >= 18. Pack on 24, then load both entries on the older runtimes.
+  pack:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -16,7 +38,63 @@ jobs:
           node-version: 24.21.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
-      - run: pnpm typecheck
-      - run: pnpm test
       - run: pnpm build:lib
+      - run: pnpm pack --pack-destination packed
+      - uses: actions/upload-artifact@v7
+        with:
+          name: package
+          path: packed/*.tgz
+
+  smoke:
+    needs: pack
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 20]
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@v8
+        with:
+          name: package
+          path: packed
+      - name: Install the tarball with React 18
+        run: |
+          mkdir smoke && cd smoke
+          npm init -y > /dev/null
+          npm install --no-audit --no-fund ../packed/*.tgz react@18 react-dom@18
+      - name: require() and import() the entries
+        working-directory: smoke
+        run: |
+          node -e '
+          const { ThreeToggle } = require("react-three-toggle");
+          const { createElement } = require("react");
+          const { renderToString } = require("react-dom/server");
+          if (typeof ThreeToggle !== "function") throw new Error("CJS entry has no ThreeToggle");
+          const html = renderToString(createElement(ThreeToggle, { values: ["a", "b", "c"] }));
+          if (!html.includes("radiogroup")) throw new Error("CJS entry did not render");
+          import("react-three-toggle").then((m) => {
+            if (typeof m.ThreeToggle !== "function") throw new Error("ESM entry has no ThreeToggle");
+            console.log("ok", process.version);
+          });
+          '
+
+  # Run the suite against the oldest and newest React the peer range allows.
+  peer:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react: [18, latest]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24.19.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm add -D react@${{ matrix.react }} react-dom@${{ matrix.react }}
+      - run: pnpm test
