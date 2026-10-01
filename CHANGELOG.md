@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.0.0 - 2026-10-01
 
 - **BREAKING:** the root is now a `<div role="radiogroup">` and each option a
   `role="radio"` with `aria-checked`, replacing the invalid
