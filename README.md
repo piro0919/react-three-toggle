@@ -50,8 +50,8 @@ Rich labels:
 | Prop                 | Type                              | Default        | Description                                                   |
 | -------------------- | --------------------------------- | -------------- | ------------------------------------------------------------- |
 | `values`             | `string[] \| { label?, value }[]` | —              | Options. At least one required.                               |
-| `defaultValue`       | `string`                          | first option   | Initial value (uncontrolled).                                 |
-| `value`              | `string`                          | —              | Controlled value.                                             |
+| `defaultValue`       | `string`                          | first option   | Initial value (uncontrolled). Must be one of `values`.        |
+| `value`              | `string`                          | —              | Controlled value. Must be one of `values`.                    |
 | `onValueChange`      | `(value: string) => void`         | —              | Fired on selection change.                                    |
 | `wrap`               | `boolean`                         | `true`         | Wrap from last back to first; set `false` to stop at the end. |
 | `orientation`        | `"horizontal" \| "vertical"`      | `"horizontal"` | Layout direction.                                             |
@@ -60,8 +60,37 @@ Rich labels:
 | `className`          | `string`                          | —              | Root class.                                                   |
 | `indicatorClassName` | `string`                          | —              | Indicator class.                                              |
 | `optionClassName`    | `string`                          | —              | Option class.                                                 |
+| `aria-label`         | `string`                          | —              | Accessible name of the group.                                 |
+| `aria-labelledby`    | `string`                          | —              | Id of the element that names the group.                       |
 
 Each option exposes `data-selected="true"` when active. Root exposes `data-three-toggle`, `data-orientation`, `data-disabled`.
+
+Values must be unique. A `value` or `defaultValue` that is not in `values`
+falls back to the first option; in development both mistakes log a warning.
+The uncontrolled selection is kept by value, so reordering `values` does not
+change what is selected.
+
+## Accessibility
+
+The root is a `role="radiogroup"` `<div>` and each option is a `role="radio"`
+with `aria-checked`, following the WAI-ARIA radio group pattern.
+
+- **Tab** lands on the checked option — the group is a single tab stop.
+- **Arrow keys** (all four, whatever the orientation) move to the previous or
+  next option and select it, honouring `wrap`. **Home** / **End** jump to the
+  first and last.
+- **Click** anywhere still cycles to the next option. A click from assistive
+  technology (one without a pointer behind it) selects the option it names.
+- Give the group a name with `aria-label` or `aria-labelledby`.
+
+Focus sits on an option, not on the root, so draw a focus ring on the root with
+`:has()`:
+
+```css
+[data-three-toggle]:has(:focus-visible) {
+  outline: 2px solid;
+}
+```
 
 ## License
 

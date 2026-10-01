@@ -46,13 +46,15 @@ tests/ThreeToggle.test.tsx
   name="theme"                         // hidden input for forms
   disabled={false}
   className="..."
+  aria-label="Theme"
   indicatorClassName="..."
   optionClassName="..."
 />
 ```
 
 - Uses `useId` (no nanoid), pointer-agnostic click handling (no detect-touch-events), inline styles + className hooks (no @emotion).
-- Accessibility: `role="listbox"`, `aria-orientation`, `aria-activedescendant`, arrow-key navigation.
+- Accessibility: WAI-ARIA radio group. Root `<div role="radiogroup">`, options `role="radio"` + `aria-checked`, roving tabindex (the checked option is the one tab stop), arrows / Home / End select. A pointer click anywhere cycles; a click with `detail === 0` (assistive tech) selects the radio it hits. Up to 1.1.1 the root was a `<button role="listbox">`, which is invalid ARIA.
+- Uncontrolled state is stored by value, not index. Unknown `value`/`defaultValue` and duplicate `values` warn in development.
 - Indicator animates via CSS transform translate.
 
 ## Publishing Notes

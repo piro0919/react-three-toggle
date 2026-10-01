@@ -179,7 +179,8 @@ body {
   background: var(--panel);
 }
 
-.toggle-root:focus-visible {
+/* フォーカスは選ばれている radio に乗る。輪は外枠に描く */
+.toggle-root:has(:focus-visible) {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }

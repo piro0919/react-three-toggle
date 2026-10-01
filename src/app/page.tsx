@@ -17,6 +17,7 @@ export default function Home() {
     <main className={`stage theme-${theme} size-${size}`}>
       <div className="hero">
         <ThreeToggle
+          aria-label="Page theme"
           className="toggle-root hero-toggle"
           indicatorClassName="toggle-indicator"
           onValueChange={setTheme}
@@ -36,6 +37,7 @@ export default function Home() {
         <div className="cell">
           <span className="cell-label">uncontrolled</span>
           <ThreeToggle
+            aria-label="Uncontrolled theme"
             className="toggle-root"
             defaultValue="auto"
             indicatorClassName="toggle-indicator"
@@ -50,6 +52,7 @@ export default function Home() {
         <div className="cell">
           <span className="cell-label">wrap = false</span>
           <ThreeToggle
+            aria-label="Theme without wrap"
             className="toggle-root"
             indicatorClassName="toggle-indicator"
             onValueChange={setWrapped}
@@ -66,6 +69,7 @@ export default function Home() {
         <div className="cell">
           <span className="cell-label">four values</span>
           <ThreeToggle
+            aria-label="Text size"
             className="toggle-root"
             indicatorClassName="toggle-indicator"
             onValueChange={setSize}

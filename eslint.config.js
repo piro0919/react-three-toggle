@@ -30,6 +30,7 @@ export default [
         Node: "readonly",
         URL: "readonly",
         console: "readonly",
+        process: "readonly",
         setTimeout: "readonly",
         clearTimeout: "readonly",
       },
