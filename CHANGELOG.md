@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.1.0 - 2026-10-03
 
 - A `<three-toggle>` web component at `react-three-toggle/web-component`, for
   pages without React. It runs the same component on Preact, so one script tag
