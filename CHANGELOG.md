@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- A `<three-toggle>` web component at `react-three-toggle/web-component`, for
+  pages without React. It runs the same component on Preact, so one script tag
+  is enough: about 12 kB gzipped. `onValueChange` is dispatched as a
+  `valuechange` event.
+
 ## 2.0.0 - 2026-10-01
 
 - **BREAKING:** the root is now a `<div role="radiogroup">` and each option a

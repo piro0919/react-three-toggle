@@ -36,6 +36,10 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./web-component": {
+      "types": "./dist/web-component.d.ts",
+      "default": "./dist/web-component.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -43,19 +47,21 @@
     "README.md",
     "LICENSE"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/web-component.js"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build:lib": "tsup",
+    "build:lib": "tsup && node scripts/build-web-component.mjs",
     "build:lib:watch": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build:lib && pnpm run check:package",
-    "check:package": "publint --strict && attw --pack ."
+    "check:package": "publint --strict && attw --pack . --exclude-entrypoints web-component"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -64,6 +70,7 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@eslint/js": "^9.39.5",
+    "@r2wc/react-to-web-component": "^2.1.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
@@ -74,12 +81,14 @@
     "@typescript-eslint/parser": "^8.70.1",
     "@vercel/analytics": "2.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "jsdom": "^30.1.1",
     "lefthook": "^2.1.14",
     "next": "^16.3.6",
+    "preact": "^11.0.0",
     "prettier": "^3.9.9",
     "publint": "^0.3.24",
     "react": "^19.3.0",

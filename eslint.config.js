@@ -33,6 +33,7 @@ export default [
         process: "readonly",
         setTimeout: "readonly",
         clearTimeout: "readonly",
+        customElements: "readonly",
       },
     },
     plugins: {
@@ -48,6 +49,10 @@ export default [
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
     },
+  },
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: { globals: { console: "readonly" } },
   },
   { ignores: ["dist/**", "node_modules/**", "coverage/**", ".next/**", "next-env.d.ts"] },
 ];

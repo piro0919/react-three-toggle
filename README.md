@@ -92,6 +92,52 @@ Focus sits on an option, not on the root, so draw a focus ring on the root with
 }
 ```
 
+## Web Component
+
+For pages without React, the package also ships a `<three-toggle>` custom
+element. It is the same component running on Preact, so it needs nothing else:
+about 12 kB gzipped.
+
+```html
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/react-three-toggle/dist/web-component.js"
+></script>
+
+<three-toggle
+  values='["light", "auto", "dark"]'
+  default-value="auto"
+  name="theme"
+  aria-label="Theme"
+  class-name="toggle"
+  indicator-class-name="toggle-indicator"
+></three-toggle>
+```
+
+With a bundler, import it once instead of the script tag:
+
+```js
+import "react-three-toggle/web-component";
+```
+
+Props become attributes in kebab-case. `values` takes JSON, either strings or
+`{ "value", "label" }` objects with a string label. Booleans take `"true"` or
+`"false"` (an empty attribute such as a bare `disabled` is ignored). Everything
+can also be set as a property from JavaScript. `style` is not available; style
+the element or use the class name attributes.
+
+`onValueChange` is dispatched as a `valuechange` event with the new value in
+`detail`:
+
+```js
+document.querySelector("three-toggle").addEventListener("valuechange", (event) => {
+  console.log(event.detail);
+});
+```
+
+With `name`, the hidden input sits inside the element, so a surrounding
+`<form>` submits it like any other field.
+
 ## License
 
 MIT

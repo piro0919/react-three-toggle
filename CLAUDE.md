@@ -60,6 +60,7 @@ tests/ThreeToggle.test.tsx
 ## Publishing Notes
 
 - `files: ["dist", "README.md", "LICENSE"]`.
+- `react-three-toggle/web-component` is a `<three-toggle>` custom element built from `src/web-component.tsx` by `scripts/build-web-component.mjs`, after tsup: React aliased to Preact, everything bundled, ESM only. attw skips that entry because it has no CJS form, and `sideEffects` lists it so bundlers keep the bare import.
 - v1.0.0 removes @emotion/styled, nanoid, detect-touch-events dependencies. Default export → named `{ ThreeToggle }`. Props renamed (`onChange` → `onValueChange`; class/style objects flattened).
 
 <!-- BEGIN:nextjs-agent-rules -->
