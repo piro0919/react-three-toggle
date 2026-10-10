@@ -91,6 +91,15 @@ export default function Home() {
       >
         GitHub →
       </a>
+      <a
+        style={{ borderTop: "none", marginTop: 8, paddingTop: 0 }}
+        className="github-link"
+        href="https://buymeacoffee.com/piro0919"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Buy Me a Coffee →
+      </a>
     </main>
   );
 }
