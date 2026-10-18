@@ -86,7 +86,7 @@
     "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "jsdom": "^30.1.2",
+    "jsdom": "^30.1.3",
     "lefthook": "^2.2.2",
     "next": "^16.4.1",
     "preact": "^11.0.1",
@@ -96,7 +96,7 @@
     "react-dom": "^19.3.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "engines": {
     "node": ">=18.20.8"
