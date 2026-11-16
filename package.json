@@ -86,7 +86,7 @@
     "eslint": "^9.39.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "jsdom": "^30.1.3",
+    "jsdom": "^31.0.1",
     "lefthook": "^2.2.2",
     "next": "^16.4.6",
     "preact": "^11.2.0",
@@ -94,12 +94,12 @@
     "publint": "^0.3.25",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "tsup": "^8.5.1",
+    "tsup": "^9.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.12"
+    "vitest": "^5.1.0"
   },
   "engines": {
     "node": ">=18.20.8"
   },
-  "packageManager": "pnpm@11.28.11"
+  "packageManager": "pnpm@12.20.0"
 }
