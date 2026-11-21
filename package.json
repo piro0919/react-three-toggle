@@ -101,5 +101,5 @@
   "engines": {
     "node": ">=18.20.8"
   },
-  "packageManager": "pnpm@12.20.0"
+  "packageManager": "pnpm@12.21.0"
 }
